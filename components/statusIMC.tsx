@@ -22,7 +22,7 @@ export default function StatusIMC({ resultado }: Props) {
 
     return (
         <View>
-            <Text>IMC: {resultado}</Text>
+            <Text>IMC: {resultado.toFixed(2)}</Text>
             <Text>{status(resultado)}</Text>
         </View>
     );

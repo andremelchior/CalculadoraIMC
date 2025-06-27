@@ -1,37 +1,45 @@
 import CustomButton from "@/components/CustomButton";
 import React, { useState } from "react";
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, TextInput, View } from "react-native";
 import StatusIMC from "./statusIMC";
 
 interface Props {
-    title: string;
+    placeh1: string;
+    placeh2: string;
 }
 
-export default function Form({ title }: Props) {
+export default function Form({ placeh1, placeh2 }: Props) {
     const FORM = "";
     const [form1, setForm1] = useState(FORM);
     const [form2, setForm2] = useState(FORM);
-    // let text = `${form1} ${form2}`;
+    const [status, setStatus] = useState(false);
+    
+
+    const statusResultado = () => setStatus(true);
+    let imc;
 
     return (
-        <View>
-            <TextInput placeholder={title} onChangeText={setForm1} />
-            <TextInput placeholder={title} onChangeText={setForm2} />
+        <View style={{flex: 1, gap: 20}}>
+            <TextInput style={styles.input} placeholder={placeh1} onChangeText={x => {setForm1(x); setStatus(false)}} />
+            <TextInput style={styles.input} placeholder={placeh2} onChangeText={x => {setForm2(x); setStatus(false)}} />
 
             <CustomButton
                 title="Enviar"
                 onPress={() => {
-                    setForm1(`Input1: ${form1}.`);
-                    setForm2(`Input2: ${form2}.`);
+                    statusResultado()
                 }}
             />
+            {String(imc = Number(form1) / Number(form2) ** 2) != "lorem" && ""}
 
-            <StatusIMC
-                resultado={(parseFloat(form1) / parseFloat(form2)) * 2}
-            />
+            {status && !isNaN(imc) && isFinite(imc) && (
+                <StatusIMC
+                    resultado={(Number(form1) / Number(form2) ** 2)}
+                />
+            )}
         </View>
     );
 }
+
 
 const styles = StyleSheet.create({
     button: {
@@ -43,4 +51,10 @@ const styles = StyleSheet.create({
         color: "white",
         textAlign: "center",
     },
+    input: {
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+        padding: 10,
+  },
 });
